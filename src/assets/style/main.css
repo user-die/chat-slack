@@ -1,0 +1,55 @@
+@import 'tailwindcss';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@theme {
+  --breakpoint-3xl: 1920px;
+  --color-text-primary: #ffffff;
+  --color-text-secondary: #767876;
+  --color-bg-primary: #29282f;
+  --color-bg-secondary: #17161b;
+  --color-bg-item: #403f46;
+  --color-green: #4be79a;
+  --color-blue: #2e9dfb;
+  --color-message: #e9e9eb;
+}
+
+html,
+body,
+#app {
+  height: 100%;
+}
+
+.list-enter-active,
+.list-leave-active {
+  transition: all 0.5s ease;
+}
+.list-enter-from,
+.list-leave-to {
+  opacity: 0;
+  transform: translateX(30px);
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 4px;
+}
+
+::-webkit-scrollbar-track {
+  border-radius: 6px;
+  background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 6px;
+  background-color: var(--color-text-secondary);
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  transition: background-color 5000s ease-in-out 0s;
+  -webkit-text-fill-color: var(--color-bg-item) !important;
+}
