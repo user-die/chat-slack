@@ -2,7 +2,7 @@
   <div class="page">
     <div class="wrap">
       <img
-        src="/src/assets/icons/icon.png"
+        :src="mainIcon"
         alt=""
         width="200px"
         height="200px"
@@ -17,9 +17,14 @@
         <Input class="w-full" v-model="state.password" label="Пароль" type="password" />
 
         <div class="w-full flex items-center justify-between gap-[20px]">
-          <Button @click="createUser" class="w-[180px]" label="Войти" :disabled />
+          <Button
+            @click="Login(state.username, state.password)"
+            class="w-[180px]"
+            label="Войти"
+            :disabled
+          />
 
-          <Button @click="router.push(Pages.SIGNUP)" class="w-[200px]" label="Зарегистрироваться" />
+          <Button @click="goToSingin" class="w-[200px]" label="Зарегистрироваться" />
         </div>
       </div>
     </div>
@@ -27,16 +32,12 @@
 </template>
 
 <script setup lang="ts">
-import Input from '@/components/Input.vue'
-import Button from '@/components/Button.vue'
-import { useStore } from '@/app/store/mainStore'
-import { useRouter } from 'vue-router'
+import Input from '@/shared/components/Input.vue'
+import Button from '@/shared/components/Button.vue'
 import { computed, reactive } from 'vue'
-import { login } from './api'
-import { Pages } from '@/router/types'
-
-const store = useStore()
-const router = useRouter()
+import { Login } from '@/features/login'
+import { goToSingin } from '@/features/goToSignin'
+import mainIcon from '@/shared/assets/icons/icon.png'
 
 const state = reactive({
   username: '',
@@ -44,25 +45,10 @@ const state = reactive({
 })
 
 const disabled = computed(() => !state.username && !state.password)
-
-const createUser = async () => {
-  const { data, isFinished } = await login({
-    username: state.username,
-    password: state.password,
-  })
-
-  if (!isFinished.value || !data.value) {
-    return
-  }
-
-  store.token = data.value.token
-  store.username = data.value.username
-  router.push(Pages.CHAT)
-}
 </script>
 
 <style scoped>
-@reference "@/assets/style/main.css";
+@reference '@/app/style/main.css';
 
 .page {
   @apply h-full w-full flex items-center justify-center;

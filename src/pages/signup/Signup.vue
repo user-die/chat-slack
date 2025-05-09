@@ -2,7 +2,7 @@
   <div class="page">
     <div class="wrap">
       <img
-        src="/src/assets/icons/icon.png"
+        :src="mainIcon"
         alt=""
         width="200px"
         height="200px"
@@ -36,24 +36,23 @@
           :error="errors.confirmPassword"
         />
 
-        <Button @click="createUser" class="w-[200px]" label="Зарегистрироваться" />
+        <Button
+          @click="createUser(username, password, validate)"
+          class="w-[200px]"
+          label="Зарегистрироваться"
+        />
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import Input from '@/components/Input.vue'
-import Button from '@/components/Button.vue'
+import Input from '@/shared/components/Input.vue'
+import Button from '@/shared/components/Button.vue'
+import mainIcon from '@/shared/assets/icons/icon.png'
+import { createUser } from '@/features/signin'
 import { useForm } from 'vee-validate'
 import * as yup from 'yup'
-import { createNewUser } from './api'
-import { useStore } from '@/app/store/mainStore'
-import { useRouter } from 'vue-router'
-import { Pages } from '@/router/types'
-
-const store = useStore()
-const router = useRouter()
 
 const validationSchema = yup.object({
   username: yup
@@ -78,31 +77,10 @@ const { errors, defineField, validate } = useForm({
 const [username] = defineField('username')
 const [password] = defineField('password')
 const [confirmPassword] = defineField('confirmPassword')
-
-const createUser = async () => {
-  const res = await validate()
-
-  if (!res.valid) {
-    return
-  }
-
-  const { data, isFinished } = await createNewUser({
-    username: username.value,
-    password: password.value,
-  })
-
-  if (!isFinished.value || !data.value) {
-    return
-  }
-
-  store.token = data.value.token
-  store.username = data.value.username
-  router.push(Pages.CHAT)
-}
 </script>
 
 <style scoped>
-@reference "@/assets/style/main.css";
+@reference '@/app/style/main.css';
 
 .page {
   @apply h-full w-full flex items-center justify-center;

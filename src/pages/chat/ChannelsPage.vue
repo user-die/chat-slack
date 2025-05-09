@@ -1,8 +1,8 @@
 <template>
   <div class="page">
     <Transition :name="breakpoints.greater('md').value ? '' : 'slide'">
-      <Channels
-        @active="setActiveChannel"
+      <ChannelList
+        @active="store.setActiveChannel"
         v-show="visibleChannels || breakpoints.greater('md').value"
         :class="[
           'absolute p-[16px] md:p-0  top-0 md:static z-[100] left-[0px] ',
@@ -19,35 +19,31 @@
 
     <Chat
       class="relative z-[1]"
-      :key="activeChannel?.id"
-      :activeChannel
+      :key="store.currentChannel?.id"
+      :activeChannel="store.currentChannel"
       @toggle="toggleChannelsVisible"
     />
   </div>
 </template>
 
 <script setup lang="ts">
-import { type IChannel } from './api'
 import { ref } from 'vue'
-import Chat from './components/Chat.vue'
-import Channels from './components/Channels.vue'
+import Chat from '../../entities/Chat/ui/Chat.vue'
+import ChannelList from '@/entities/Channel/ui/ChannelList.vue'
 import { breakpointsTailwind, useBreakpoints } from '@vueuse/core'
+import { useChannelsStore } from '@/entities/Channel/model/store'
 
+const store = useChannelsStore()
 const breakpoints = useBreakpoints(breakpointsTailwind)
 const visibleChannels = ref<boolean>(false)
-const activeChannel = ref<IChannel>()
 
 const toggleChannelsVisible = () => {
   visibleChannels.value = !visibleChannels.value
 }
-
-const setActiveChannel = (channel: IChannel) => {
-  activeChannel.value = channel
-}
 </script>
 
 <style scoped>
-@reference "@/assets/style/main.css";
+@reference '@/app/style/main.css';
 
 .page {
   @apply h-full flex gap-[16px];

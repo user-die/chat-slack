@@ -2,7 +2,7 @@
 
 ## Stack
 
-Vue3, vue@use, pinia, vee-validate, TS, Tailwind@4, socket.io, vue3-toastify, yup
+Vue3, vue@use, pinia, vee-validate, yup, TypeScript, Tailwind@4, socket.io, vue3-toastify, Feature-Sliced Design
 
 ## Project Setup
 
