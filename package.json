@@ -11,6 +11,7 @@
     "type-check": "vue-tsc --build",
     "lint": "eslint . --fix",
     "format": "prettier --write src/",
+    "serve": "npx start-server",
     "start": "concurrently \"npm run dev\" \"npx start-server\"",
     "start-prod": "concurrently \"npm run preview\" \"npx start-server\""
   },
