@@ -8,6 +8,7 @@
     "build": "run-p type-check \"build-only {@}\" --",
     "preview": "concurrently \"vite preview\" \"npx start-server\"",
     "build-only": "vite build",
+    "build-server": "concurrently \"vite build\" \"npx start-server --port 9000\"",
     "type-check": "vue-tsc --build",
     "lint": "eslint . --fix",
     "format": "prettier --write src/",
